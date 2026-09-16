@@ -1,0 +1,27 @@
+{
+  "lazy_load_utilities": true,
+  "disabled_applets": [],
+  "applet_order": [],
+  "metadata_font": "",
+  "hidden_columns": {},
+  "module_states": {
+    "boot-environment": true,
+    "encyclopedia": true,
+    "privileged-helpers": true,
+    "problem-finder": true,
+    "system-identity": true,
+    "system-pulse": true,
+    "applet-organizer": true
+  },
+  "module_dashboard_visibility": {
+    "applet-organizer": false
+  },
+  "module_order": [
+    "encyclopedia",
+    "system-identity",
+    "system-pulse",
+    "privileged-helpers",
+    "applet-organizer",
+    "boot-environment"
+  ]
+}

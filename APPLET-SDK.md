@@ -1,0 +1,97 @@
+# Linspector Suite Applet SDK
+
+Linspector Suite discovers applets from the root-level `applets/` directory. Discovery reads `applet.json` only; Python code is not imported until an enabled applet is opened, unless lazy loading is disabled.
+
+## Identity
+
+This distribution uses `linspector-suite` as the Suite organisation ID and `brunonlinespace` as official applet author/editor/publisher metadata.
+
+## Required files
+
+```text
+applets/my_applet/
+  applet.json
+  __init__.py
+  applet.py
+  standalone.py
+```
+
+A self-contained applet may add any local support modules it needs. It must not import `linspector.*`; this keeps applets independently launchable and prevents experiments from coupling themselves to the host.
+
+## Manifest
+
+```json
+{
+  "schema": 1,
+  "id": "my-applet",
+  "name": "My Applet",
+  "version": "0.0.1",
+  "author": "brunonlinespace",
+  "editor": "brunonlinespace",
+  "publisher": "brunonlinespace",
+  "order": 100,
+  "entrypoint": "applet.py",
+  "factory": "create_applet",
+  "standalone": "standalone.py"
+}
+```
+
+`create_applet(parent=None)` must return a `QWidget`. Linspector Suite never needs to know the applet's implementation class.
+
+## Optional lifecycle hook
+
+A live applet may expose:
+
+```python
+def set_applet_active(self, active: bool):
+    ...
+```
+
+The host calls it when the applet becomes selected or hidden. Live applets can use this hook to pause sampling while hidden. Ordinary inspectors do not need it. Resource Monitor is not bundled in the exp7 Linspector line.
+
+## Intentional scans
+
+Applets that perform potentially expensive or policy-sensitive probes may present an explicit Scan action and remain unscanned when constructed. This behavior is independent of the host's lazy-loading preference. Official Boot Inspector, Installed Software and Python Packages follow this model. SELinux Inspector also keeps Recent Denials unscanned until the user explicitly chooses a scan.
+
+## Standalone
+
+Each bundled applet has a `standalone.py`; run it with Python to launch only that utility. The applet owns its dependencies and any local settings it needs.
+
+## Adding and removing
+
+Users may manually add/remove valid applet folders or use **Configuration... → Applets**. ZIP installation requires one top-level applet directory and a valid manifest. Discovery never executes applet code.
+
+## Core boundary
+
+Dashboard is the host's only built-in content page. Every bundled inspector utility is an applet and may be removed without changing the host. Resource Monitor is intentionally decoupled from Linspector Suite in exp7.
+
+## Optional branding asset
+
+An applet may include `icon.png` beside `applet.py`. Official brunonlinespace applets use the Linspector mark for standalone window/application identity. The host does not require or execute the icon during discovery.
+## Optional host presentation settings
+
+Inspector applets may expose:
+
+```python
+def apply_host_settings(self, settings=None, column_visibility_callback=None):
+    ...
+```
+
+The current host supplies `metadata_font` (a serialized Qt `QFont`) and the applet's persisted `hidden_columns`. The callback lets an applet report changed column visibility without importing `linspector.*`. Standalone launchers remain valid without this hook or without host settings.
+
+Official table-based applets use a right-click header menu for column visibility. At least one column remains visible.
+
+## Export
+
+Official non-live inspector applets expose an **Export...** action at the far right of their top action row. Export operates on data already collected by the applet and must not silently trigger extra system probes. Plain text is the default format; CSV, JSON and Markdown are optional alternatives.
+
+
+## Optional privileged inspection
+
+An applet may offer an explicitly user-requested privileged inspection when ordinary read-only access is insufficient, but the **Linspector Suite host and applet GUI must remain unprivileged**. Elevation should be narrowly scoped to a fixed external command with fixed-purpose arguments, invoked without a shell, after a clear confirmation. The applet must continue to provide useful unprivileged behavior when elevation is declined or unavailable.
+
+SELinux Inspector demonstrates this pattern for Recent Denials: **Scan with Privileged Access...** can invoke only `ausearch` through `pkexec` to read audit records. It does not run Linspector Suite as root and does not modify SELinux policy, booleans, labels, or enforcement mode.
+## Suite Modules are separate
+
+Suite-level enhancements use the independent `modules/` store and `MODULE-SDK.md`. Applets remain standalone and must not import or depend on Suite Modules.
+

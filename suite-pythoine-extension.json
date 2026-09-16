@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "id": "linspector",
+  "name": "Linspector Suite",
+  "display_name": "Linspector Suite — Linux Inspection Utilities",
+  "family": "extension",
+  "author": "brunonlinespace",
+  "editor": "brunonlinespace",
+  "publisher": "brunonlinespace",
+  "platforms": [
+    "linux"
+  ],
+  "portable": true,
+  "entrypoint": "main.py",
+  "file_routing": false,
+  "new_file": false,
+  "notes": "0.0.2 identity release: relabels the program as Linspector Suite — Linux Inspection Utilities, adopts organisation ID linspector-suite and the Linspector Suite GitHub organisation, updates the tagline to Expose. Explore. Explain., fixes About-dialog spacing, and alphabetizes applets in Dashboard Inspection Coverage and Configuration → Applets.",
+  "version": "0.0.2",
+  "release_channel": "experimental"
+}
