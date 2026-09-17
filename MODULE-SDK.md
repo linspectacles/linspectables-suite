@@ -1,8 +1,8 @@
-# Linspector Suite Module SDK — API v5
+# Linspectacles Module SDK — API v5
 
-Suite Modules are optional capabilities of the **Linspector Suite host**. They are deliberately different from applets:
+Suite Modules are optional capabilities of the **Linspectacles host**. They are deliberately different from applets:
 
-- **Applet**: a standalone inspector; must remain usable outside Linspector Suite and must not import `linspector.*`.
+- **Applet**: a standalone inspector; must remain usable outside Linspectacles and must not import `linspectacles.*`.
 - **Suite Module**: an optional host enhancement; it may depend on the documented Suite Module API and never appears in the sidebar.
 
 Examples of appropriate Suite Modules include an Encyclopedia/What's This layer, relationship/correlation tools, Snapshot & Compare, combined diagnostic reports, or privacy/redaction helpers.
@@ -226,7 +226,7 @@ ZIP installation requires one top-level module folder, safe archive paths, a val
 
 ## Compatibility rule
 
-A new module that uses already-documented API v1/v2/v3/v4/v5 services should require **no Linspector Suite source change**. A host change is appropriate only when a future module genuinely requires a new class of host capability; that capability should then be added generically and the Module API version handled deliberately rather than special-casing a module by name.
+A new module that uses already-documented API v1/v2/v3/v4/v5 services should require **no Linspectacles source change**. A host change is appropriate only when a future module genuinely requires a new class of host capability; that capability should then be added generically and the Module API version handled deliberately rather than special-casing a module by name.
 
 ## Navigation services — API v5
 

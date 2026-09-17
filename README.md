@@ -1,18 +1,25 @@
-# Linspector Suite — Linux Inspection Utilities
+# Linspectacles — Linux Inspection Suite
 
-<p align="center"><img src="assets/linspector-logo.png" alt="Linspector penguin X-ray roundel" width="180"></p>
+<p align="center"><img src="assets/linspectacles-logo.png" alt="Linspectacles penguin X-ray roundel" width="180"></p>
 
-**Version 0.0.2** · Organisation ID: **linspector-suite** · Publisher/editor: **brunonlinespace** · GPLv3-or-later
+**Version 0.0.3** · Organisation ID: **linspectacles** · Publisher/editor: **brunonlinespace** · GPLv3-or-later
 
 **Expose. Explore. Explain.**
 
 Portable, dark-only, read-only Linux inspection utilities with removable standalone applets.
 
+### 0.0.3
+
+- Rebrands the program as **Linspectacles** with the product line **Linux Inspection Suite** across the titlebar, Dashboard, About dialog, host identity and current documentation.
+- Adopts organisation ID **`linspectacles`** and GitHub organisation **`https://github.com/linspectacles`** while retaining **brunonlinespace** as publisher/editor.
+- Renames the portable host package/configuration/assets to the Linspectacles identity and uses the supplied Linspectacles icon/logo assets.
+- Retains the **Expose. Explore. Explain.** tagline and the existing 0.0.2 host behaviour otherwise.
+
 ### 0.0.2
 
-- Relabels the program **Linspector Suite** and the descriptive product line **Linux Inspection Utilities** across the Dashboard, titlebar, About dialog and current documentation.
+- Previous identity release updating the program/product labels across the Dashboard, titlebar, About dialog and documentation.
 - Replaces the former taglines with **Expose. Explore. Explain.**
-- Adopts organisation ID **`linspector-suite`**, keeps **brunonlinespace** as publisher/editor, and moves current GitHub links to the Linspector Suite organisation/repository.
+- Previous identity metadata update; **brunonlinespace** remains publisher/editor.
 - Fixes About-dialog spacing and margins so long identity/configuration text does not overlap surrounding content.
 - Dashboard **Inspection Coverage** and **Configuration → Applets** now list applets alphabetically by displayed applet name (A→Z), without changing sidebar/navigation organisation.
 
@@ -68,7 +75,7 @@ Portable, dark-only, read-only Linux inspection utilities with removable standal
 - Bundles **Privileged Helpers 0.0.1** as an optional, disabled-by-default Suite Module. It consumes Privileged Helper Contract v1 declarations generically rather than hard-coding individual applets.
 - Privileged Helpers provides central helper inventory, installed/update-repair state, ownership/mode/hash facts, and the applet-declared **Standard access vs With helper** comparison.
 - Helper install/update/repair/remove is explicit and PolicyKit-mediated. Installing a helper never activates privilege; elevated sessions remain controlled by the applet's own dedicated Privileged Inspection window.
-- Central helper installation is restricted to read-only, window-ephemeral contracts with a SHA-256-verified packaged payload and direct `/usr/libexec/linspector-*` target. The hash is presented as package consistency, not as third-party publisher authentication.
+- Central helper installation is restricted to read-only, window-ephemeral contracts with a SHA-256-verified packaged payload and direct `/usr/libexec/linspectacles-*` target. The hash is presented as package consistency, not as third-party publisher authentication.
 - All bundled inspector applet implementations are preserved byte-for-byte from exp9-r1. Current independently issued applet packages, such as SELinux Inspector 0.0.4-r4, can be installed into the applet store normally.
 
 ### 0.0.1-exp9-r1
@@ -94,13 +101,13 @@ Portable, dark-only, read-only Linux inspection utilities with removable standal
 
 ### 0.0.1-exp7-r1
 
-- Hotfix: SELinux Inspector now correctly re-exports its `create_applet` factory from the package root so the Linspector applet loader can instantiate it. No SELinux inspection behavior changed.
+- Hotfix: SELinux Inspector now correctly re-exports its `create_applet` factory from the package root so the Linspectacles applet loader can instantiate it. No SELinux inspection behavior changed.
 
 ### 0.0.1-exp7
 
-- Resource Monitor is intentionally **decoupled from Linspector** while ResMon GUI/TUI development continues independently; the Linspector package no longer includes a Resource Monitor applet or `psutil` dependency.
+- Resource Monitor is intentionally **decoupled from Linspectacles** while ResMon GUI/TUI development continues independently; the Linspectacles package no longer includes a Resource Monitor applet or `psutil` dependency.
 - Adds **SELinux Inspector 0.0.1** as a removable standalone applet with Status, Booleans, Process Contexts, Recent Denials and File Context Check views.
-- Recent SELinux AVC/USER_AVC denials are **not scanned automatically**. Users can scan normally, or explicitly choose **Scan with Privileged Access...** when audit permissions require it. The privileged path runs only `ausearch` through `pkexec`; the Linspector GUI itself remains unprivileged and no SELinux policy/settings are changed.
+- Recent SELinux AVC/USER_AVC denials are **not scanned automatically**. Users can scan normally, or explicitly choose **Scan with Privileged Access...** when audit permissions require it. The privileged path runs only `ausearch` through `pkexec`; the Linspectacles GUI itself remains unprivileged and no SELinux policy/settings are changed.
 - File Context Check compares the current label with the policy expectation using read-only tools and never runs `chcon` or `restorecon`.
 - SELinux Inspector participates in the existing metadata-font preference, right-click column visibility and Plain Text-first export system.
 
@@ -109,7 +116,7 @@ Portable, dark-only, read-only Linux inspection utilities with removable standal
 - **Configuration → Appearance** now lets the user choose the actual installed font and size used by metadata/details panes with Qt's native font chooser; the selection is persisted portably and applied to loaded applets. The applet text panes also apply a local font QSS override so the suite's global UI stylesheet cannot force the proportional interface font back onto metadata.
 - Every inspector applet except the then-bundled Resource Monitor now has **Export...** as the far-right top action. Export uses already-collected data only, defaults to **Plain Text**, and also offers CSV, JSON and Markdown. Boot Inspector exports its cached boot summary and critical chain; Environment Variables redacts likely secret/token/password values in exports. Scan-only applets keep Export disabled until a successful scan.
 - Right-click the left-table column header in inspector applets to tick/untick visible columns. At least one column must remain visible, and choices are stored per applet in the portable host configuration.
-- Resource Monitor kept its existing sampler/logic in exp6 and received the standard applet framing; it is decoupled from Linspector as of exp7.
+- Resource Monitor kept its existing sampler/logic in exp6 and received the standard applet framing; it is decoupled from Linspectacles as of exp7.
 - TUI work remains intentionally deferred; no curses/TUI runtime is added in this revision.
 
 ### 0.0.1-exp5-r1
@@ -137,7 +144,7 @@ The host requires Python 3 and PyQt6. Applets own their additional requirements 
 ## Portable layout
 
 - `main.py` — stable host entrypoint
-- `linspector/` — Dashboard host shell, configuration, applet loader and Suite Module API/loader
+- `linspectacles/` — Dashboard host shell, configuration, applet loader and Suite Module API/loader
 - `applets/` — removable self-contained utilities; Resource Monitor remains intentionally decoupled
 - `modules/` — optional Suite-level capabilities; never shown in the sidebar
 - `config/` — portable host preferences plus namespaced module data when used
@@ -147,21 +154,19 @@ There is no AppImage builder or Windows installer. The Suite itself never runs a
 
 ## Dashboard
 
-Dashboard is the only built-in content page. The host itself shows Linspector Suite branding, installed/enabled applet coverage, loaded/not-loaded session state and lazy-loading/module status. Linux **System Identity is no longer hardcoded into the shell**; when desired, that information is provided by the independent System Identity Suite Module.
+Dashboard is the only built-in content page. The host itself shows Linspectacles branding, installed/enabled applet coverage, loaded/not-loaded session state and lazy-loading/module status. Linux **System Identity is no longer hardcoded into the shell**; when desired, that information is provided by the independent System Identity Suite Module.
 
 The Dashboard is vertically scrollable and deliberately contains no utility-launch buttons or applet scan triggers. Enabled Suite Modules may contribute Dashboard content, but **Configuration → Modules → Dashboard** can hide those contributions without disabling the module itself. Applet navigation belongs to the sidebar; **Ctrl+Shift+,** / **Ctrl+Shift+.** cycle previous/next enabled applets in the current sidebar order.
 
 ## Suite Pythoine
 
-Linspector Suite remains independently runnable. `main.py --suite-pythoine` launches the same application without changing its behavior, and `main.py --component-info` prints the bundled extension descriptor as JSON. The descriptor identifies Linspector Suite as a non-routing **Extension** with `main.py` as its portable entrypoint. Suite Pythoine catalogue registration can use this metadata when desired.
+Linspectacles remains independently runnable. `main.py --suite-pythoine` launches the same application without changing its behavior, and `main.py --component-info` prints the bundled extension descriptor as JSON. The descriptor identifies Linspectacles as a non-routing **Extension** with `main.py` as its portable entrypoint. Suite Pythoine catalogue registration can use this metadata when desired.
 
-GitHub organisation: `https://github.com/linspector-suite/`
-
-Suite repository: `https://github.com/linspector-suite/linspector-suite`
+GitHub: `https://github.com/linspectacles`
 
 ## Applets
 
-Use **Configuration... → Applets** to enable/disable, add, remove, reorder, refresh or open the root-level applet store. Applets may also be copied into or removed from `applets/` manually. Installed applets remain independently launchable through their own `standalone.py` and do not import `linspector.*`. This shell-only source ZIP does not carry applet payloads.
+Use **Configuration... → Applets** to enable/disable, add, remove, reorder, refresh or open the root-level applet store. Applets may also be copied into or removed from `applets/` manually. Installed applets remain independently launchable through their own `standalone.py` and do not import `linspectacles.*`. This shell-only source ZIP does not carry applet payloads.
 
 Applet scan behaviour is owned by each independently released applet. The Suite host does not trigger an applet inspection merely to populate Dashboard coverage information.
 
@@ -169,10 +174,10 @@ See `APPLET-SDK.md` for the applet contract and `MODULE-SDK.md` for Suite Module
 
 ## Suite Modules
 
-Suite Modules enhance the Linspector Suite workbench rather than inspect a Linux subsystem. They are managed under the dedicated **Configuration... → Modules** tab and never appear in the sidebar. Discovery reads `module.json` only; disabled modules are not imported. The **Enabled** checkbox controls module activation, while the independent **Dashboard** checkbox controls whether that enabled module's Dashboard contributions are presented. Enabled modules may still contribute Help/Tools actions, configuration pages and other documented host services while hidden from the Dashboard, and may observe host-known applet state without triggering scans.
+Suite Modules enhance the Linspectacles workbench rather than inspect a Linux subsystem. They are managed under the dedicated **Configuration... → Modules** tab and never appear in the sidebar. Discovery reads `module.json` only; disabled modules are not imported. The **Enabled** checkbox controls module activation, while the independent **Dashboard** checkbox controls whether that enabled module's Dashboard contributions are presented. Enabled modules may still contribute Help/Tools actions, configuration pages and other documented host services while hidden from the Dashboard, and may observe host-known applet state without triggering scans.
 
 Suite Modules are released independently from the Suite shell. Install them with **Configuration → Modules → Add Module...** or place them in the root-level `modules/` store. The Suite source ZIP does not bundle module payloads merely because the host API changed.
 
 ## Branding
 
-The approved Linspector Suite mark is the half-normal, half-X-ray penguin roundel in `assets/`. The host uses it as the application icon and in the Pad-family-style **About — Linspector Suite** dialog. Official standalone applets carry a local branded icon while remaining independent of the host.
+The approved Linspectacles mark is the half-normal, half-X-ray penguin roundel in `assets/`. The host uses it as the application icon and in the Pad-family-style **About — Linspectacles** dialog. Official standalone applets carry a local branded icon while remaining independent of the host.

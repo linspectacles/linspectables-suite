@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Linspector Suite - Linux Inspection Utilities
+# Linspectacles - Linux Inspection Suite
 # Copyright (C) 2026 brunonlinespace
 # GPL-3.0-or-later
 
@@ -22,7 +22,7 @@ def main():
         return 0
     if "--suite-pythoine" in sys.argv:
         sys.argv.remove("--suite-pythoine")
-    from linspector.host import run
+    from linspectacles.host import run
     return run(PROGRAM_ROOT)
 
 
