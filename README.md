@@ -1,4 +1,4 @@
-# Linspectacles — Linux Inspection Suite
+# LinSpectacles — Linux Inspection Suite
 
 <p align="center"><img src="assets/linspectacles-logo.png" alt="Linspectacles penguin X-ray roundel" width="180"></p>
 
