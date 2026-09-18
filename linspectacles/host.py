@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Linspectacles - Linux Inspection Suite
+# LinSpectacles - Linux Inspection Suite
 # Copyright (C) 2026 brunonlinespace
 # GPL-3.0-or-later
 
@@ -20,6 +20,7 @@ from PyQt6.QtWidgets import (
     QFontDialog,
     QFrame,
     QHBoxLayout,
+    QHeaderView,
     QLabel,
     QLineEdit,
     QListWidget,
@@ -37,7 +38,9 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
-from . import APP_NAME, ORGANIZATION_ID, PUBLISHER, VERSION
+from . import (
+    APP_NAME, ORGANIZATION_ID, ORGANIZATION_URL, REPOSITORY, VERSION,
+)
 from .applets import AppletRegistry
 from .config import PortableConfig
 from .modules import EventBus, ModuleContext, ModuleRegistry
@@ -70,7 +73,7 @@ class ConfigurationDialog(QDialog):
         self.initial_page_id = initial_page_id
         self.dynamic_pages = []
         self.changed = False
-        self.setWindowTitle("Configuration — Linspectacles")
+        self.setWindowTitle("Configuration — LinSpectacles")
         self.resize(820, 650)
 
         root = QVBoxLayout(self)
@@ -182,7 +185,7 @@ class ConfigurationDialog(QDialog):
 
         note = QLabel(
             "When enabled, applets are imported only when first opened. "
-            "When disabled, enabled applets are initialized during Linspectacles startup. "
+            "When disabled, enabled applets are initialized during LinSpectacles startup. "
             "Live applets activate only while selected. Boot and package inventories remain Scan-only. "
             "Enabled Suite Modules activate at Suite startup because they contribute host features rather than sidebar views."
         )
@@ -206,7 +209,7 @@ class ConfigurationDialog(QDialog):
         modules_layout.addWidget(modules_heading)
 
         modules_note = QLabel(
-            "This is an offline catalogue and manager for Linspectacles Modules. Installed modules can be "
+            "This is an offline catalogue and manager for LinSpectacles Modules. Installed modules can be "
             "enabled/disabled and their Dashboard visibility controlled here; known but uninstalled modules are "
             "shown for discovery only. Nothing is downloaded or installed from the catalogue. Unknown installed "
             "modules remain visible as Uncatalogued. For installed Dashboard modules, the row position is the "
@@ -278,8 +281,93 @@ class ConfigurationDialog(QDialog):
             self.dynamic_page_indexes[(str(module_id), str(page_id))] = index
             self.dynamic_page_indexes[str(page_id)] = index
 
-        # Keep Modules last, after every enabled module-owned Configuration page.
+        # Keep Modules after every enabled module-owned Configuration page.
         self.modules_tab_index = tabs.addTab(modules_page, "Modules")
+
+        # ------------------------------------------------------------------
+        # About — final Configuration page, following the current inspector
+        # About-page convention used by Scheduler/Interrupts Inspector.
+        # ------------------------------------------------------------------
+        about = QWidget()
+        about_layout = QVBoxLayout(about)
+        about_layout.setContentsMargins(24, 20, 24, 18)
+        about_layout.setSpacing(8)
+
+        program_root = Path(getattr(parent, "program_root", Path(__file__).resolve().parents[1])).resolve()
+
+        icon_label = QLabel()
+        icon_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        icon_label.setFixedSize(112, 112)
+        logo_path = program_root / "assets" / "linspectacles-logo.png"
+        if logo_path.is_file():
+            pix = QPixmap(str(logo_path))
+            if not pix.isNull():
+                icon_label.setPixmap(
+                    pix.scaled(
+                        112, 112,
+                        Qt.AspectRatioMode.KeepAspectRatio,
+                        Qt.TransformationMode.SmoothTransformation,
+                    )
+                )
+        about_layout.addWidget(icon_label, alignment=Qt.AlignmentFlag.AlignHCenter)
+
+        name = QLabel("<h2 style='margin:0'>LinSpectacles</h2>")
+        name.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        about_layout.addWidget(name)
+
+        version = QLabel(f"Version {VERSION}")
+        version.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        about_layout.addWidget(version)
+
+        slogan = QLabel("<b>Expose. Explore. Explain.</b>")
+        slogan.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        about_layout.addWidget(slogan)
+
+        desc = QLabel(
+            "A modular, portable collection of Linux inspection utilities for examining system "
+            "resources and optional diagnostics without changing the system."
+        )
+        desc.setWordWrap(True)
+        desc.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        about_layout.addWidget(desc)
+
+        details = QLabel(
+            "<b>Build:</b> Modular portable source<br>"
+            "<b>Organisation ID:</b> "
+            f"<a href='{ORGANIZATION_URL}'>{ORGANIZATION_ID}</a>"
+        )
+        details.setWordWrap(True)
+        details.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextBrowserInteraction
+            | Qt.TextInteractionFlag.TextSelectableByMouse
+        )
+        details.setOpenExternalLinks(True)
+        details.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        about_layout.addWidget(details)
+
+        copyright_label = QLabel(
+            "Copyright © 2026 "
+            "<a href='https://github.com/brunonlinespace'>brunonlinespace</a>"
+        )
+        copyright_label.setOpenExternalLinks(True)
+        copyright_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        about_layout.addWidget(copyright_label)
+
+        license_label = QLabel("Licensed under GNU GPLv3 or later.")
+        license_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        about_layout.addWidget(license_label)
+
+        license_url = QUrl.fromLocalFile(str(program_root / "LICENSE")).toString()
+        links = QLabel(
+            f"<a href='{REPOSITORY}'>GitHub Repository</a> "
+            "&nbsp;·&nbsp; "
+            f"<a href='{license_url}'>License</a>"
+        )
+        links.setOpenExternalLinks(True)
+        links.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        about_layout.addWidget(links)
+        about_layout.addStretch(1)
+        tabs.addTab(about, "About")
 
         if self.initial_page_id is not None:
             index = self.dynamic_page_indexes.get(self.initial_page_id)
@@ -435,16 +523,16 @@ class ConfigurationDialog(QDialog):
     def add_applet(self):
         filename, _ = QFileDialog.getOpenFileName(
             self,
-            "Add Linspectacles Applet",
+            "Add LinSpectacles Applet",
             "",
-            "Linspectacles Applet (*.zip);;ZIP Archives (*.zip)",
+            "LinSpectacles Applet (*.zip);;ZIP Archives (*.zip)",
         )
         if not filename:
             return
         trust = QMessageBox.question(
             self,
             "Add Applet",
-            "Linspectacles applets contain executable Python code. Only add an applet you trust.\n\nContinue with this archive?",
+            "LinSpectacles applets contain executable Python code. Only add an applet you trust.\n\nContinue with this archive?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
         )
@@ -468,7 +556,7 @@ class ConfigurationDialog(QDialog):
         answer = QMessageBox.question(
             self,
             "Remove Applet",
-            f"Remove '{manifest.name}' from this portable Linspectacles copy?\n\n"
+            f"Remove '{manifest.name}' from this portable LinSpectacles copy?\n\n"
             "Its applet folder will be deleted.",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
@@ -621,16 +709,16 @@ class ConfigurationDialog(QDialog):
     def add_module(self):
         filename, _ = QFileDialog.getOpenFileName(
             self,
-            "Add Linspectacles Module",
+            "Add LinSpectacles Module",
             "",
-            "Linspectacles Module (*.zip);;ZIP Archives (*.zip)",
+            "LinSpectacles Module (*.zip);;ZIP Archives (*.zip)",
         )
         if not filename:
             return
         trust = QMessageBox.question(
             self,
             "Add Suite Module",
-            "Suite Modules contain executable Python code that runs inside the Linspectacles host when enabled. "
+            "Suite Modules contain executable Python code that runs inside the LinSpectacles host when enabled. "
             "Only add a module you trust. Newly added modules remain disabled until you explicitly enable them.\n\n"
             "Continue with this archive?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
@@ -663,7 +751,7 @@ class ConfigurationDialog(QDialog):
         answer = QMessageBox.question(
             self,
             "Remove Suite Module",
-            f"Remove '{manifest.name}' from this portable Linspectacles copy?\n\n"
+            f"Remove '{manifest.name}' from this portable LinSpectacles copy?\n\n"
             "Its module folder will be deleted. Any active contribution is removed when Configuration closes.",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
@@ -687,7 +775,7 @@ class AboutDialog(QDialog):
     def __init__(self, program_root, parent=None):
         super().__init__(parent)
         self.program_root = Path(program_root).resolve()
-        self.setWindowTitle("About — Linspectacles")
+        self.setWindowTitle("About — LinSpectacles")
         self.setMinimumSize(540, 590)
         self.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose, True)
 
@@ -712,7 +800,7 @@ class AboutDialog(QDialog):
                 )
         root.addWidget(logo_label, alignment=Qt.AlignmentFlag.AlignHCenter)
 
-        name = QLabel("<h2 style='margin:0'>Linspectacles</h2>")
+        name = QLabel("<h2 style='margin:0'>LinSpectacles</h2>")
         name.setAlignment(Qt.AlignmentFlag.AlignCenter)
         root.addWidget(name)
 
@@ -738,13 +826,17 @@ class AboutDialog(QDialog):
 
         details = QLabel(
             "<b>Build:</b> Modular portable source<br>"
-            f"<b>Organisation ID:</b> {ORGANIZATION_ID}<br>"
-            f"<b>Publisher/Editor:</b> {PUBLISHER}<br>"
+            "<b>Organisation ID:</b> "
+            f"<a href='{ORGANIZATION_URL}'>{ORGANIZATION_ID}</a><br>"
             "<b>Configuration:</b><br>"
             f"{self.program_root / 'config' / 'linspectacles.json'}"
         )
         details.setWordWrap(True)
-        details.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        details.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextBrowserInteraction
+            | Qt.TextInteractionFlag.TextSelectableByMouse
+        )
+        details.setOpenExternalLinks(True)
         details.setAlignment(Qt.AlignmentFlag.AlignCenter)
         root.addWidget(details)
 
@@ -759,7 +851,7 @@ class AboutDialog(QDialog):
         readme_url = QUrl.fromLocalFile(str(self.program_root / "README.md")).toString()
         license_url = QUrl.fromLocalFile(str(self.program_root / "LICENSE")).toString()
         links = QLabel(
-            "<a href='https://github.com/linspectacles'>GitHub</a> &nbsp;·&nbsp; "
+            f"<a href='{REPOSITORY}'>GitHub Repository</a> &nbsp;·&nbsp; "
             f"<a href='{readme_url}'>README</a> &nbsp;·&nbsp; "
             f"<a href='{license_url}'>License</a>"
         )
@@ -861,7 +953,7 @@ class Linspectacles(QMainWindow):
         repository_action = QAction("GitHub Repository", self)
         repository_action.triggered.connect(
             lambda: QDesktopServices.openUrl(
-                QUrl("https://github.com/linspectacles")
+                QUrl(REPOSITORY)
             )
         )
         self.help_menu.addAction(repository_action)
@@ -869,14 +961,14 @@ class Linspectacles(QMainWindow):
         issue_action = QAction("Raise an Issue", self)
         issue_action.triggered.connect(
             lambda: QDesktopServices.openUrl(
-                QUrl("https://github.com/linspectacles")
+                QUrl(REPOSITORY.rstrip("/") + "/issues")
             )
         )
         self.help_menu.addAction(issue_action)
 
         self.help_menu.addSeparator()
 
-        about_action = QAction("About Linspectacles", self)
+        about_action = QAction("About LinSpectacles", self)
         about_action.triggered.connect(self.open_about)
         self.help_menu.addAction(about_action)
 
@@ -893,7 +985,7 @@ class Linspectacles(QMainWindow):
             QDesktopServices.openUrl(QUrl.fromLocalFile(str(readme)))
             return
         QDesktopServices.openUrl(
-            QUrl("https://github.com/linspectacles")
+            QUrl(REPOSITORY)
         )
 
     def open_about(self):
@@ -1010,7 +1102,7 @@ class Linspectacles(QMainWindow):
 
         brand = QVBoxLayout()
         brand.setSpacing(3)
-        title = QLabel("Linspectacles")
+        title = QLabel("LinSpectacles")
         title_font = title.font()
         title_font.setBold(True)
         title_font.setPointSize(max(title_font.pointSize(), 22))
@@ -1082,7 +1174,7 @@ class Linspectacles(QMainWindow):
         self.dashboard_coverage.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.dashboard_coverage.setAlternatingRowColors(True)
         header_view = self.dashboard_coverage.horizontalHeader()
-        header_view.setStretchLastSection(True)
+        header_view.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         coverage_layout.addWidget(self.dashboard_coverage, 1)
         lower.addWidget(coverage_card, 2)
 
@@ -1198,8 +1290,9 @@ class Linspectacles(QMainWindow):
                 item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsEditable)
                 self.dashboard_coverage.setItem(row, column, item)
 
-        self.dashboard_coverage.resizeColumnsToContents()
-        self.dashboard_coverage.horizontalHeader().setStretchLastSection(True)
+        self.dashboard_coverage.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch
+        )
 
         installed = len(manifests)
         enabled_count = sum(1 for m in manifests if m.applet_id not in disabled)
@@ -1915,7 +2008,7 @@ class Linspectacles(QMainWindow):
 
 def run(program_root):
     app = QApplication(sys.argv)
-    app.setApplicationName("Linspectacles")
+    app.setApplicationName("LinSpectacles")
     app.setOrganizationName(ORGANIZATION_ID)
     icon_path = Path(program_root).resolve() / "assets" / "linspectacles-icon.png"
     if icon_path.is_file():

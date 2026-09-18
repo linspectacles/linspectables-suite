@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "id": "linspectacles",
-  "name": "Linspectacles",
-  "display_name": "Linspectacles — Linux Inspection Suite",
+  "name": "LinSpectacles",
+  "display_name": "LinSpectacles — Linux Inspection Suite",
   "family": "extension",
   "author": "brunonlinespace",
   "editor": "brunonlinespace",
@@ -14,7 +14,10 @@
   "entrypoint": "main.py",
   "file_routing": false,
   "new_file": false,
-  "notes": "0.0.3 rebrands the program as Linspectacles — Linux Inspection Suite, adopts organisation ID linspectacles and the Linspectacles GitHub organisation, and replaces the host branding assets with the supplied Linspectacles icon and logo. Publisher/editor remains brunonlinespace.",
-  "version": "0.0.3",
-  "release_channel": "experimental"
+  "notes": "0.0.3-r2 corrects the LinSpectacles repository URL, keeps the organization link separate, simplifies visible About metadata while retaining full component metadata, and makes Inspection Coverage columns fill the available table width.",
+  "version": "0.0.3-r2",
+  "release_channel": "experimental",
+  "organization_id": "linspectacles",
+  "organization_url": "https://github.com/linspectacles/",
+  "repository": "https://github.com/linspectacles/linspectables-suite/"
 }

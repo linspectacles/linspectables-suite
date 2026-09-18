@@ -1,18 +1,32 @@
 # LinSpectacles — Linux Inspection Suite
 
-<p align="center"><img src="assets/linspectacles-logo.png" alt="Linspectacles penguin X-ray roundel" width="180"></p>
+<p align="center"><img src="assets/linspectacles-logo.png" alt="LinSpectacles penguin X-ray roundel" width="180"></p>
 
-**Version 0.0.3** · Organisation ID: **linspectacles** · Publisher/editor: **brunonlinespace** · GPLv3-or-later
+**Version 0.0.3-r2** · Organisation ID: **linspectacles** · Publisher/editor: **brunonlinespace** · GPLv3-or-later
 
 **Expose. Explore. Explain.**
 
 Portable, dark-only, read-only Linux inspection utilities with removable standalone applets.
 
+### 0.0.3-r2
+
+- Corrects the Suite repository to **`https://github.com/linspectacles/linspectables-suite/`** while retaining the organisation URL **`https://github.com/linspectacles/`**.
+- Keeps author/editor/publisher metadata in the component descriptor but removes those fields from the visible About presentations.
+- Dashboard **Inspection Coverage** columns now stretch to occupy the available table width.
+- No applet, module, navigation, inspection, or other Dashboard behaviour is changed.
+
+### 0.0.3-r1
+
+- Refreshes the displayed product-brand capitalization to **LinSpectacles** throughout the host and current documentation while retaining the internal `linspectacles` organization/package identity.
+- Adds **About** as the final **Configuration** tab, using the same About-page layout convention as the current Scheduler and Interrupts inspectors.
+- Confirms metadata: author/editor/publisher **brunonlinespace**, organisation ID **`linspectacles`**, and organisation URL **`https://github.com/linspectacles/`**.
+- No inspection, applet, module, navigation, or Dashboard behaviour is otherwise changed.
+
 ### 0.0.3
 
-- Rebrands the program as **Linspectacles** with the product line **Linux Inspection Suite** across the titlebar, Dashboard, About dialog, host identity and current documentation.
+- Rebrands the program as **LinSpectacles** with the product line **Linux Inspection Suite** across the titlebar, Dashboard, About dialog, host identity and current documentation.
 - Adopts organisation ID **`linspectacles`** and GitHub organisation **`https://github.com/linspectacles`** while retaining **brunonlinespace** as publisher/editor.
-- Renames the portable host package/configuration/assets to the Linspectacles identity and uses the supplied Linspectacles icon/logo assets.
+- Renames the portable host package/configuration/assets to the LinSpectacles identity and uses the supplied LinSpectacles icon/logo assets.
 - Retains the **Expose. Explore. Explain.** tagline and the existing 0.0.2 host behaviour otherwise.
 
 ### 0.0.2
@@ -30,7 +44,7 @@ Portable, dark-only, read-only Linux inspection utilities with removable standal
 - Organizer category headings are normal case, bold, and use the Suite blue instead of all-caps headings.
 - Configuration → Modules removes module categories and the numeric Dashboard Order column. Installed module row position itself is the Dashboard/module order; Up/Down visibly moves the selected reorderable row. Catalogue-only rows remain informational below installed rows.
 - **Privileged Helpers** is the only currently fixed/non-reorderable module. **System Pulse** is reorderable again.
-- Modules remains the final Configuration tab and the offline module catalogue remains permissive with Uncatalogued fallback for unknown installed modules.
+- Modules remains the final management/module Configuration tab before About and the offline module catalogue remains permissive with Uncatalogued fallback for unknown installed modules.
 
 ### 0.0.1-exp9-r6-r1
 
@@ -39,7 +53,7 @@ Portable, dark-only, read-only Linux inspection utilities with removable standal
 - Core applet sidebar is alphabetical and no longer exposes applet Up/Down ordering.
 - Previous/next applet shortcuts are now `Ctrl+,` / `Ctrl+.`; `F5` returns to Dashboard.
 - Suite Module API v5 adds the optional host-owned navigation organizer contract, module-state inspection and applet activation service.
-- Configuration keeps **Modules** last, and Modules is now a permissive offline catalogue/manager showing known installed and uninstalled modules plus unknown installed modules as **Uncatalogued**.
+- Configuration keeps **Modules** after module-contributed pages and before **About**, and Modules is now a permissive offline catalogue/manager showing known installed and uninstalled modules plus unknown installed modules as **Uncatalogued**.
 - Dashboard ordering controls are disabled for fixed/non-reorderable module contributions.
 - No module catalogue function performs network, store, download or automatic installation activity.
 
@@ -101,13 +115,13 @@ Portable, dark-only, read-only Linux inspection utilities with removable standal
 
 ### 0.0.1-exp7-r1
 
-- Hotfix: SELinux Inspector now correctly re-exports its `create_applet` factory from the package root so the Linspectacles applet loader can instantiate it. No SELinux inspection behavior changed.
+- Hotfix: SELinux Inspector now correctly re-exports its `create_applet` factory from the package root so the LinSpectacles applet loader can instantiate it. No SELinux inspection behavior changed.
 
 ### 0.0.1-exp7
 
-- Resource Monitor is intentionally **decoupled from Linspectacles** while ResMon GUI/TUI development continues independently; the Linspectacles package no longer includes a Resource Monitor applet or `psutil` dependency.
+- Resource Monitor is intentionally **decoupled from LinSpectacles** while ResMon GUI/TUI development continues independently; the LinSpectacles package no longer includes a Resource Monitor applet or `psutil` dependency.
 - Adds **SELinux Inspector 0.0.1** as a removable standalone applet with Status, Booleans, Process Contexts, Recent Denials and File Context Check views.
-- Recent SELinux AVC/USER_AVC denials are **not scanned automatically**. Users can scan normally, or explicitly choose **Scan with Privileged Access...** when audit permissions require it. The privileged path runs only `ausearch` through `pkexec`; the Linspectacles GUI itself remains unprivileged and no SELinux policy/settings are changed.
+- Recent SELinux AVC/USER_AVC denials are **not scanned automatically**. Users can scan normally, or explicitly choose **Scan with Privileged Access...** when audit permissions require it. The privileged path runs only `ausearch` through `pkexec`; the LinSpectacles GUI itself remains unprivileged and no SELinux policy/settings are changed.
 - File Context Check compares the current label with the policy expectation using read-only tools and never runs `chcon` or `restorecon`.
 - SELinux Inspector participates in the existing metadata-font preference, right-click column visibility and Plain Text-first export system.
 
@@ -116,7 +130,7 @@ Portable, dark-only, read-only Linux inspection utilities with removable standal
 - **Configuration → Appearance** now lets the user choose the actual installed font and size used by metadata/details panes with Qt's native font chooser; the selection is persisted portably and applied to loaded applets. The applet text panes also apply a local font QSS override so the suite's global UI stylesheet cannot force the proportional interface font back onto metadata.
 - Every inspector applet except the then-bundled Resource Monitor now has **Export...** as the far-right top action. Export uses already-collected data only, defaults to **Plain Text**, and also offers CSV, JSON and Markdown. Boot Inspector exports its cached boot summary and critical chain; Environment Variables redacts likely secret/token/password values in exports. Scan-only applets keep Export disabled until a successful scan.
 - Right-click the left-table column header in inspector applets to tick/untick visible columns. At least one column must remain visible, and choices are stored per applet in the portable host configuration.
-- Resource Monitor kept its existing sampler/logic in exp6 and received the standard applet framing; it is decoupled from Linspectacles as of exp7.
+- Resource Monitor kept its existing sampler/logic in exp6 and received the standard applet framing; it is decoupled from LinSpectacles as of exp7.
 - TUI work remains intentionally deferred; no curses/TUI runtime is added in this revision.
 
 ### 0.0.1-exp5-r1
@@ -154,13 +168,13 @@ There is no AppImage builder or Windows installer. The Suite itself never runs a
 
 ## Dashboard
 
-Dashboard is the only built-in content page. The host itself shows Linspectacles branding, installed/enabled applet coverage, loaded/not-loaded session state and lazy-loading/module status. Linux **System Identity is no longer hardcoded into the shell**; when desired, that information is provided by the independent System Identity Suite Module.
+Dashboard is the only built-in content page. The host itself shows LinSpectacles branding, installed/enabled applet coverage, loaded/not-loaded session state and lazy-loading/module status. Linux **System Identity is no longer hardcoded into the shell**; when desired, that information is provided by the independent System Identity Suite Module.
 
 The Dashboard is vertically scrollable and deliberately contains no utility-launch buttons or applet scan triggers. Enabled Suite Modules may contribute Dashboard content, but **Configuration → Modules → Dashboard** can hide those contributions without disabling the module itself. Applet navigation belongs to the sidebar; **Ctrl+Shift+,** / **Ctrl+Shift+.** cycle previous/next enabled applets in the current sidebar order.
 
 ## Suite Pythoine
 
-Linspectacles remains independently runnable. `main.py --suite-pythoine` launches the same application without changing its behavior, and `main.py --component-info` prints the bundled extension descriptor as JSON. The descriptor identifies Linspectacles as a non-routing **Extension** with `main.py` as its portable entrypoint. Suite Pythoine catalogue registration can use this metadata when desired.
+LinSpectacles remains independently runnable. `main.py --suite-pythoine` launches the same application without changing its behavior, and `main.py --component-info` prints the bundled extension descriptor as JSON. The descriptor identifies LinSpectacles as a non-routing **Extension** with `main.py` as its portable entrypoint. Suite Pythoine catalogue registration can use this metadata when desired.
 
 GitHub: `https://github.com/linspectacles`
 
@@ -174,10 +188,10 @@ See `APPLET-SDK.md` for the applet contract and `MODULE-SDK.md` for Suite Module
 
 ## Suite Modules
 
-Suite Modules enhance the Linspectacles workbench rather than inspect a Linux subsystem. They are managed under the dedicated **Configuration... → Modules** tab and never appear in the sidebar. Discovery reads `module.json` only; disabled modules are not imported. The **Enabled** checkbox controls module activation, while the independent **Dashboard** checkbox controls whether that enabled module's Dashboard contributions are presented. Enabled modules may still contribute Help/Tools actions, configuration pages and other documented host services while hidden from the Dashboard, and may observe host-known applet state without triggering scans.
+Suite Modules enhance the LinSpectacles workbench rather than inspect a Linux subsystem. They are managed under the dedicated **Configuration... → Modules** tab and never appear in the sidebar. Discovery reads `module.json` only; disabled modules are not imported. The **Enabled** checkbox controls module activation, while the independent **Dashboard** checkbox controls whether that enabled module's Dashboard contributions are presented. Enabled modules may still contribute Help/Tools actions, configuration pages and other documented host services while hidden from the Dashboard, and may observe host-known applet state without triggering scans.
 
 Suite Modules are released independently from the Suite shell. Install them with **Configuration → Modules → Add Module...** or place them in the root-level `modules/` store. The Suite source ZIP does not bundle module payloads merely because the host API changed.
 
 ## Branding
 
-The approved Linspectacles mark is the half-normal, half-X-ray penguin roundel in `assets/`. The host uses it as the application icon and in the Pad-family-style **About — Linspectacles** dialog. Official standalone applets carry a local branded icon while remaining independent of the host.
+The approved LinSpectacles mark is the half-normal, half-X-ray penguin roundel in `assets/`. The host uses it as the application icon and in the Pad-family-style **About — LinSpectacles** dialog. Official standalone applets carry a local branded icon while remaining independent of the host.

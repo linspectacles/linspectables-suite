@@ -1,6 +1,6 @@
-# Linspectacles Applet SDK
+# LinSpectacles Applet SDK
 
-Linspectacles discovers applets from the root-level `applets/` directory. Discovery reads `applet.json` only; Python code is not imported until an enabled applet is opened, unless lazy loading is disabled.
+LinSpectacles discovers applets from the root-level `applets/` directory. Discovery reads `applet.json` only; Python code is not imported until an enabled applet is opened, unless lazy loading is disabled.
 
 ## Identity
 
@@ -36,7 +36,7 @@ A self-contained applet may add any local support modules it needs. It must not 
 }
 ```
 
-`create_applet(parent=None)` must return a `QWidget`. Linspectacles never needs to know the applet's implementation class.
+`create_applet(parent=None)` must return a `QWidget`. LinSpectacles never needs to know the applet's implementation class.
 
 ## Optional lifecycle hook
 
@@ -47,7 +47,7 @@ def set_applet_active(self, active: bool):
     ...
 ```
 
-The host calls it when the applet becomes selected or hidden. Live applets can use this hook to pause sampling while hidden. Ordinary inspectors do not need it. Resource Monitor is not bundled in the exp7 Linspectacles line.
+The host calls it when the applet becomes selected or hidden. Live applets can use this hook to pause sampling while hidden. Ordinary inspectors do not need it. Resource Monitor is not bundled in the exp7 LinSpectacles line.
 
 ## Intentional scans
 
@@ -63,11 +63,11 @@ Users may manually add/remove valid applet folders or use **Configuration... →
 
 ## Core boundary
 
-Dashboard is the host's only built-in content page. Every bundled inspector utility is an applet and may be removed without changing the host. Resource Monitor is intentionally decoupled from Linspectacles in exp7.
+Dashboard is the host's only built-in content page. Every bundled inspector utility is an applet and may be removed without changing the host. Resource Monitor is intentionally decoupled from LinSpectacles in exp7.
 
 ## Optional branding asset
 
-An applet may include `icon.png` beside `applet.py`. Official brunonlinespace applets use the Linspectacles mark for standalone window/application identity. The host does not require or execute the icon during discovery.
+An applet may include `icon.png` beside `applet.py`. Official brunonlinespace applets use the LinSpectacles mark for standalone window/application identity. The host does not require or execute the icon during discovery.
 ## Optional host presentation settings
 
 Inspector applets may expose:
@@ -88,9 +88,9 @@ Official non-live inspector applets expose an **Export...** action at the far ri
 
 ## Optional privileged inspection
 
-An applet may offer an explicitly user-requested privileged inspection when ordinary read-only access is insufficient, but the **Linspectacles host and applet GUI must remain unprivileged**. Elevation should be narrowly scoped to a fixed external command with fixed-purpose arguments, invoked without a shell, after a clear confirmation. The applet must continue to provide useful unprivileged behavior when elevation is declined or unavailable.
+An applet may offer an explicitly user-requested privileged inspection when ordinary read-only access is insufficient, but the **LinSpectacles host and applet GUI must remain unprivileged**. Elevation should be narrowly scoped to a fixed external command with fixed-purpose arguments, invoked without a shell, after a clear confirmation. The applet must continue to provide useful unprivileged behavior when elevation is declined or unavailable.
 
-SELinux Inspector demonstrates this pattern for Recent Denials: **Scan with Privileged Access...** can invoke only `ausearch` through `pkexec` to read audit records. It does not run Linspectacles as root and does not modify SELinux policy, booleans, labels, or enforcement mode.
+SELinux Inspector demonstrates this pattern for Recent Denials: **Scan with Privileged Access...** can invoke only `ausearch` through `pkexec` to read audit records. It does not run LinSpectacles as root and does not modify SELinux policy, booleans, labels, or enforcement mode.
 ## Suite Modules are separate
 
 Suite-level enhancements use the independent `modules/` store and `MODULE-SDK.md`. Applets remain standalone and must not import or depend on Suite Modules.

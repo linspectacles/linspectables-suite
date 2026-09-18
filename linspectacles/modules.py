@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Linspectacles - Linux Inspection Suite
+# LinSpectacles - Linux Inspection Suite
 # Copyright (C) 2026 brunonlinespace
 # GPL-3.0-or-later
 
 """Generic Suite Module discovery, loading and host-service context.
 
 Suite Modules are deliberately different from applets.  Applets are standalone
-inspectors and must not depend on Linspectacles.  Suite Modules enhance the host
+inspectors and must not depend on LinSpectacles.  Suite Modules enhance the host
 itself and therefore use this small, versioned API.
 
 Discovery is manifest-only: module Python code is imported only when a module
@@ -192,7 +192,7 @@ class ModuleContext:
     def add_configuration_page(self, page_id, label, factory):
         """Register a Configuration tab factory (Module API v3)."""
         if self._add_configuration_page_cb is None:
-            raise RuntimeError("This Linspectacles host does not support Configuration page contributions.")
+            raise RuntimeError("This LinSpectacles host does not support Configuration page contributions.")
         page_id = str(page_id or "").strip()
         label = str(label or "").strip()
         if not page_id or not label:
@@ -206,13 +206,13 @@ class ModuleContext:
     def open_configuration_page(self, page_id):
         """Open Configuration focused on a contributed page (Module API v3)."""
         if self._open_configuration_page_cb is None:
-            raise RuntimeError("This Linspectacles host does not support Configuration page navigation.")
+            raise RuntimeError("This LinSpectacles host does not support Configuration page navigation.")
         return self._open_configuration_page_cb(self.module_id, str(page_id))
 
     def add_suite_state_item(self, label, provider):
         """Contribute a compact Suite State line (Module API v3)."""
         if self._add_suite_state_item_cb is None:
-            raise RuntimeError("This Linspectacles host does not support Suite State contributions.")
+            raise RuntimeError("This LinSpectacles host does not support Suite State contributions.")
         if not isinstance(label, str) or not label.strip():
             raise ValueError("label must be non-empty")
         if not callable(provider):
@@ -224,7 +224,7 @@ class ModuleContext:
     def add_coverage_annotation(self, provider):
         """Contribute text to Inspection Coverage Summary cells (Module API v3)."""
         if self._add_coverage_annotation_cb is None:
-            raise RuntimeError("This Linspectacles host does not support coverage annotations.")
+            raise RuntimeError("This LinSpectacles host does not support coverage annotations.")
         if not callable(provider):
             raise TypeError("provider must be callable")
         handle = self._add_coverage_annotation_cb(self.module_id, provider)
@@ -239,7 +239,7 @@ class ModuleContext:
         the column and its ordering; modules never receive the table widget.
         """
         if self._add_coverage_column_cb is None:
-            raise RuntimeError("This Linspectacles host does not support coverage columns.")
+            raise RuntimeError("This LinSpectacles host does not support coverage columns.")
         label = str(label or "").strip()
         if not label:
             raise ValueError("coverage column label must be non-empty")
@@ -280,19 +280,19 @@ class ModuleContext:
     def get_module_states(self):
         """Return installed Suite Module identity/state without importing disabled modules (API v5)."""
         if self._module_states_cb is None:
-            raise RuntimeError("This Linspectacles host does not expose Suite Module state.")
+            raise RuntimeError("This LinSpectacles host does not expose Suite Module state.")
         return list(self._module_states_cb())
 
     def activate_applet(self, applet_id):
         """Request activation of an installed/enabled applet by ID (API v5)."""
         if self._activate_applet_cb is None:
-            raise RuntimeError("This Linspectacles host does not support applet activation.")
+            raise RuntimeError("This LinSpectacles host does not support applet activation.")
         return bool(self._activate_applet_cb(str(applet_id)))
 
     def set_navigation_provider(self, provider):
         """Register this module as the optional applet-navigation organizer (API v5)."""
         if self._set_navigation_provider_cb is None:
-            raise RuntimeError("This Linspectacles host does not support navigation organizers.")
+            raise RuntimeError("This LinSpectacles host does not support navigation organizers.")
         handle = self._set_navigation_provider_cb(self.module_id, provider)
         self._navigation_handles.append(handle)
         return handle
@@ -512,7 +512,7 @@ class ModuleRegistry:
             supported = ", ".join(str(v) for v in sorted(SUPPORTED_MODULE_APIS))
             raise RuntimeError(
                 f"{manifest.name} requires Module API {manifest.module_api}; "
-                f"this Linspectacles supports API {supported}."
+                f"this LinSpectacles supports API {supported}."
             )
         if manifest.module_id in self.instances:
             return self.instances[manifest.module_id]
